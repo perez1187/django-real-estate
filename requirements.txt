@@ -11,3 +11,17 @@ psycopg2-binary
 flake8
 black
 isort
+djoser
+djangorestframework-simplejwt
+PyJWT
+pytest-django
+pytest-factoryboy
+Faker
+pytest-cov
+redis
+celery
+flower
+django-celery-email
+argh
+PyYAML
+watchdog

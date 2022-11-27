@@ -1,4 +1,5 @@
 import environ
+from datetime import timedelta
 
 from pathlib import Path
 
@@ -44,10 +45,13 @@ DJANGO_APPS = [
 SITE_ID = 1
 
 THIRD_PARTY_APPS = [
-    "rest_framework", 
+    "rest_framework",
     "django_filters",
     "django_countries",
     "phonenumber_field",
+    "djoser",
+    "rest_framework_simplejwt",
+    "djcelery_email",
 ]
 
 LOCAL_APPS = [
@@ -150,6 +154,44 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'users.User' # new
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
+
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": (
+        "Bearer",
+        "JWT",
+    ),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120), # in production +- 15 min
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "SIGNING_KEY": env("SIGNING_KEY"),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+}
+
+DJOSER = {
+    "LOGIN_FIELD": "email",  # field from user model
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,  # so we sent confirmation email when change email
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True, # when change pass we sent confirmation email
+    "SEND_CONFIRMATION_EMAIL": True, # we sent conf email when user create an account
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}", # url for frontent pass reset page
+    "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
+    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True, # user required to click activation email
+    "SERIALIZERS": { # here we map to these serialziers
+        "user_create": "apps.users.serializers.CreateUserSerializer,",
+        "user": "apps.users.serializers.UserSerializer",
+        "current_user": "apps.users.serializers.UserSerializer",
+        "user_delete": "djoser.serializers.UserDeleteSerializer",
+    },
+}
 
 '''   Logs   '''
 
