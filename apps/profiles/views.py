@@ -34,7 +34,7 @@ class TopAgentsListAPIView(generics.ListAPIView):
 
 class GetProfileAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    renderer_classes = [ProfileJSONRenderer]
+    renderer_classes = [ProfileJSONRenderer]  # so we will see profile: data
 
     def get(self, request):
         user = self.request.user
