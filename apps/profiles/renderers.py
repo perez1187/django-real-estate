@@ -1,12 +1,10 @@
-
-
 import json
 
 from rest_framework.renderers import JSONRenderer
 
 
 class ProfileJSONRenderer(JSONRenderer):
-    charset = "utf-8" #character set
+    charset = "utf-8"  # character set
 
     def render(self, data, accepted_media_types=None, renderer_context=None):
         errors = data.get("errors", None)

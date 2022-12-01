@@ -9,17 +9,21 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     # because profile is one to one field with user, that is why we have access to profile fields
-    gender = serializers.CharField(source="profile.gender")  
+    gender = serializers.CharField(source="profile.gender")
     phone_number = PhoneNumberField(source="profile.phone_number")
     profile_photo = serializers.ImageField(source="profile.profile_photo")
     country = CountryField(source="profile.country")
     city = serializers.CharField(source="profile.city")
     top_seller = serializers.BooleanField(source="profile.top_seller")
-    
-    #because first name and last name is in user profile
-    first_name = serializers.SerializerMethodField() # remember to declare these ttwo metdots
+
+    # because first name and last name is in user profile
+    first_name = (
+        serializers.SerializerMethodField()
+    )  # remember to declare these ttwo metdots
     last_name = serializers.SerializerMethodField()
-    full_name = serializers.SerializerMethodField(source="get_full_name") # this is from user model get_full_name
+    full_name = serializers.SerializerMethodField(
+        source="get_full_name"
+    )  # this is from user model get_full_name
 
     class Meta:
         model = User
@@ -51,7 +55,10 @@ class UserSerializer(serializers.ModelSerializer):
             representation["admin"] = True
         return representation
 
-class CreateUserSerializer(UserCreateSerializer): # so we dont need to copy these all fields
-    class Meta(UserCreateSerializer.Meta): 
+
+class CreateUserSerializer(
+    UserCreateSerializer
+):  # so we dont need to copy these all fields
+    class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ["id", "username", "email", "first_name", "last_name", "password"]            
+        fields = ["id", "username", "email", "first_name", "last_name", "password"]

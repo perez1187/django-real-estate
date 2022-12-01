@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 
+
 # this is something that we will do for any other models
 class TimeStampedUUIDModel(models.Model):
     pkid = models.BigAutoField(primary_key=True, editable=False)

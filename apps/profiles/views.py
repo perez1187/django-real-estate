@@ -39,8 +39,12 @@ class GetProfileAPIView(APIView):
     def get(self, request):
         user = self.request.user
         user_profile = Profile.objects.get(user=user)
-        serializer = ProfileSerializer(user_profile, context={"request": request}) # 2:33
-        return Response(serializer.data, status=status.HTTP_200_OK) # and we use renderer classes here
+        serializer = ProfileSerializer(
+            user_profile, context={"request": request}
+        )  # 2:33
+        return Response(
+            serializer.data, status=status.HTTP_200_OK
+        )  # and we use renderer classes here
 
 
 class UpdateProfileAPIView(APIView):
@@ -54,18 +58,18 @@ class UpdateProfileAPIView(APIView):
         try:
             Profile.objects.get(user__username=username)
         except Profile.DoesNotExist:
-            raise ProfileNotFound # we raise custo exception
+            raise ProfileNotFound  # we raise custo exception
 
         # here we check if user from token  is the same user that we want to change
         user_name = request.user.username
         if user_name != username:
-            raise NotYourProfile # another custom exception
+            raise NotYourProfile  # another custom exception
 
         data = request.data
         serializer = UpdateProfileSerializer(
             instance=request.user.profile, data=data, partial=True
         )
 
-        serializer.is_valid() # if evertyhing is good we can save it
+        serializer.is_valid()  # if evertyhing is good we can save it
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -75,7 +75,7 @@ class PropertyCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Property
-        exclude = ["updated_at", "pkid"] # we have all fields without these two
+        exclude = ["updated_at", "pkid"]  # we have all fields without these two
         # this is the same like we have all fields that we want to have
 
 

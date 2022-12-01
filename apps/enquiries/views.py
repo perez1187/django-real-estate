@@ -24,7 +24,7 @@ def send_enquiry_email(request):
         # django send mail funtion
         send_mail(subject, message, from_email, recipient_list, fail_silently=True)
 
-        #and we save to db
+        # and we save to db
         enquiry = Enquiry(name=name, email=email, subject=subject, message=message)
         enquiry.save()
 

@@ -1,14 +1,14 @@
 import random
 import string
 
-from autoslug import AutoSlugField # we first install django-autoslug
+from autoslug import AutoSlugField  # we first install django-autoslug
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 
-from apps.common.models import TimeStampedUUIDModel # from common apps
+from apps.common.models import TimeStampedUUIDModel  # from common apps
 
 User = get_user_model()
 
@@ -44,7 +44,9 @@ class Property(TimeStampedUUIDModel):
     )
 
     title = models.CharField(verbose_name=_("Property Title"), max_length=250)
-    slug = AutoSlugField(populate_from="title", unique=True, always_update=True) #we create slug from title, always update, we title change, slug update
+    slug = AutoSlugField(
+        populate_from="title", unique=True, always_update=True
+    )  # we create slug from title, always update, we title change, slug update
     ref_code = models.CharField(
         verbose_name=_("Property Reference Code"),
         max_length=255,
@@ -146,18 +148,21 @@ class Property(TimeStampedUUIDModel):
         self.title = str.title(self.title)
         self.description = str.capitalize(self.description)
         # when we save model we automaticaly create reference_code
-        self.ref_code = "".join(   #here we create random numebr from letters and numbers
-            random.choices(string.ascii_uppercase + string.digits, k=10)
+        self.ref_code = (
+            "".join(  # here we create random numebr from letters and numbers
+                random.choices(string.ascii_uppercase + string.digits, k=10)
+            )
         )
         super(Property, self).save(*args, **kwargs)
-
 
     # here we define final price, netto + VAtT
     @property
     def final_property_price(self):
         tax_percentage = self.tax
         property_price = self.price
-        tax_amount = round(tax_percentage * property_price, 2) # we rounded price to two place after dot
+        tax_amount = round(
+            tax_percentage * property_price, 2
+        )  # we rounded price to two place after dot
         price_after_tax = float(round(property_price + tax_amount, 2))
         return price_after_tax
 

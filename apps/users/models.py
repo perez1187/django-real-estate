@@ -28,13 +28,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 
-    def __str__(self): # string representation of this model
+    def __str__(self):  # string representation of this model
         return self.username
 
     # decorator property https://stackoverflow.com/questions/58558989/what-does-djangos-property-do
     @property
     def get_full_name(self):
-        return f"{self.first_name} {self.last_name}" # .title()
+        return f"{self.first_name} {self.last_name}"  # .title()
 
     def get_short_name(self):
         return self.username

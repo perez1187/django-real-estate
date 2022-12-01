@@ -1,21 +1,19 @@
-import environ
 from datetime import timedelta
-
 from pathlib import Path
 
-env = environ.Env(
-    DEBUG=(bool,False)
-)
+import environ
+
+env = environ.Env(DEBUG=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-'''
+"""
 this is what I changed, added .parent 
 I also changed wsgi
 and manage.py
 
-'''
-BASE_DIR = Path(__file__).resolve().parent.parent.parent  
-environ.Env.read_env(BASE_DIR / ".env") # we add this
+"""
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+environ.Env.read_env(BASE_DIR / ".env")  # we add this
 
 
 # Quick-start development settings - unsuitable for production
@@ -146,7 +144,7 @@ STATIC_URL = "/staticfiles/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIR = []
 MEDIA_URL = "/mediafiles/"
-MEDIA_ROOT= BASE_DIR / "mediafiles"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 
 # Default primary key field type
@@ -154,7 +152,7 @@ MEDIA_ROOT= BASE_DIR / "mediafiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'users.User' # new
+AUTH_USER_MODEL = "users.User"  # new
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -168,7 +166,7 @@ SIMPLE_JWT = {
         "Bearer",
         "JWT",
     ),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120), # in production +- 15 min
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),  # in production +- 15 min
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "SIGNING_KEY": env("SIGNING_KEY"),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
@@ -179,15 +177,15 @@ DJOSER = {
     "LOGIN_FIELD": "email",  # field from user model
     "USER_CREATE_PASSWORD_RETYPE": True,
     "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,  # so we sent confirmation email when change email
-    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True, # when change pass we sent confirmation email
-    "SEND_CONFIRMATION_EMAIL": True, # we sent conf email when user create an account
-    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}", # url for frontent pass reset page
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,  # when change pass we sent confirmation email
+    "SEND_CONFIRMATION_EMAIL": True,  # we sent conf email when user create an account
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",  # url for frontent pass reset page
     "SET_PASSWORD_RETYPE": True,
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
     "ACTIVATION_URL": "activate/{uid}/{token}",
-    "SEND_ACTIVATION_EMAIL": True, # user required to click activation email
-    "SERIALIZERS": { # here we map to these serialziers
+    "SEND_ACTIVATION_EMAIL": True,  # user required to click activation email
+    "SERIALIZERS": {  # here we map to these serialziers
         "user_create": "apps.users.serializers.CreateUserSerializer,",
         "user": "apps.users.serializers.UserSerializer",
         "current_user": "apps.users.serializers.UserSerializer",
@@ -195,7 +193,7 @@ DJOSER = {
     },
 }
 
-'''   Logs   '''
+"""   Logs   """
 
 import logging
 import logging.config
@@ -226,12 +224,16 @@ logging.config.dictConfig(
                 "level": "INFO",
                 "class": "logging.FileHandler",
                 "formatter": "file",
-                "filename": "logs/real_estate.log", # this is the place where log saves
+                "filename": "logs/real_estate.log",  # this is the place where log saves
             },
             "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
         },
         "loggers": {
-            "": {"level": "INFO", "handlers": ["console", "file"], "propagate": False}, #propagate avoid to double login root logger
+            "": {
+                "level": "INFO",
+                "handlers": ["console", "file"],
+                "propagate": False,
+            },  # propagate avoid to double login root logger
             "apps": {"level": "INFO", "handlers": ["console"], "propagate": False},
             "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
         },

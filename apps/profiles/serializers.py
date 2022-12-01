@@ -45,8 +45,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         return f"{first_name} {last_name}"
 
     def get_reviews(self, obj):
-        reviews = obj.agent_review.all()  # this is from ratiings app, models, agent related name
-        serializer = RatingSerializer(reviews, many=True) # many True so we can take all reviews
+        reviews = (
+            obj.agent_review.all()
+        )  # this is from ratiings app, models, agent related name
+        serializer = RatingSerializer(
+            reviews, many=True
+        )  # many True so we can take all reviews
         return serializer.data
 
     def to_representation(self, instance):

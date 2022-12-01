@@ -21,7 +21,7 @@ def create_agent_review(request, profile_id):
         formatted_response = {"message": "You can't rate yourself"}
         return Response(formatted_response, status=status.HTTP_403_FORBIDDEN)
 
-    alreadyExists = agent_profile.agent_review.filter(  #agent review is related name
+    alreadyExists = agent_profile.agent_review.filter(  # agent review is related name
         agent__pkid=profile_user.pkid
     ).exists()
 
@@ -40,12 +40,12 @@ def create_agent_review(request, profile_id):
             rating=data["rating"],
             comment=data["comment"],
         )
-        reviews = agent_profile.agent_review.all() #related name
+        reviews = agent_profile.agent_review.all()  # related name
         agent_profile.num_reviews = len(reviews)
 
-        '''
+        """
             this is how we find avg rate
-        '''
+        """
         total = 0
         for i in reviews:
             total += i.rating

@@ -16,17 +16,18 @@ from .serializers import (PropertyCreateSerializer, PropertySerializer,
 
 logger = logging.getLogger(__name__)
 
-'''
+"""
     More about filters
     https://docs.djangoproject.com/en/4.1/ref/models/querysets/
-'''
+"""
 
 
 # we create a filter taht we willl create for  prize and category
 class PropertyFilter(django_filters.FilterSet):
 
     advert_type = django_filters.CharFilter(
-        field_name="advert_type", lookup_expr="iexact" #lookup expression, check django documentation
+        field_name="advert_type",
+        lookup_expr="iexact",  # lookup expression, check django documentation
     )
 
     property_type = django_filters.CharFilter(
@@ -34,8 +35,12 @@ class PropertyFilter(django_filters.FilterSet):
     )
 
     price = django_filters.NumberFilter()
-    price__gt = django_filters.NumberFilter(field_name="price", lookup_expr="gt") # gt => greater than
-    price__lt = django_filters.NumberFilter(field_name="price", lookup_expr="lt") # less than
+    price__gt = django_filters.NumberFilter(
+        field_name="price", lookup_expr="gt"
+    )  # gt => greater than
+    price__lt = django_filters.NumberFilter(
+        field_name="price", lookup_expr="lt"
+    )  # less than
 
     class Meta:
         model = Property
@@ -44,7 +49,7 @@ class PropertyFilter(django_filters.FilterSet):
 
 class ListAllPropertiesAPIView(generics.ListAPIView):
     serializer_class = PropertySerializer
-    queryset = Property.objects.all().order_by("-created_at") # the refresh comes first
+    queryset = Property.objects.all().order_by("-created_at")  # the refresh comes first
     pagination_class = PropertyPagination
     filter_backends = [
         DjangoFilterBackend,  # from django filters
@@ -80,10 +85,12 @@ class PropertyViewsAPIView(generics.ListAPIView):
     serializer_class = PropertyViewSerializer
     queryset = PropertyViews.objects.all()
 
-'''
+
+"""
     we are goingpopulate views of the product base on IP
     ( too not double click and add more views)
-'''
+"""
+
 
 class PropertyDetailView(APIView):
     def get(self, request, slug):
@@ -164,7 +171,7 @@ def delete_property_api_view(request, slug):
     if request.method == "DELETE":
         delete_operation = property.delete()
         data = {}
-        if delete_operation: #if this operation is True/succesful
+        if delete_operation:  # if this operation is True/succesful
             data["success"] = "Deletion was successful"
         else:
             data["failure"] = "Deletion failed"
@@ -185,9 +192,11 @@ def uploadPropertyImage(request):
     property.save()
     return Response("Image(s) uploaded")
 
-'''
+
+"""
     This is how we use filter in practice
-'''
+"""
+
 
 class PropertySearchAPIView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -220,7 +229,7 @@ class PropertySearchAPIView(APIView):
             price = -1
 
         if price != -1:
-            queryset = queryset.filter(price__gte=price) # great than equal
+            queryset = queryset.filter(price__gte=price)  # great than equal
 
         bedrooms = data["bedrooms"]
         if bedrooms == "0+":
@@ -253,7 +262,7 @@ class PropertySearchAPIView(APIView):
         queryset = queryset.filter(bathrooms__gte=bathrooms)
 
         catch_phrase = data["catch_phrase"]
-        queryset = queryset.filter(description__icontains=catch_phrase) # icontains
+        queryset = queryset.filter(description__icontains=catch_phrase)  # icontains
 
         serializer = PropertySerializer(queryset, many=True)
 

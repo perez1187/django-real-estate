@@ -10,7 +10,7 @@ User = get_user_model()
 
 
 class Gender(models.TextChoices):
-    MALE = "Male", _("Male")   # so the second part is string representation
+    MALE = "Male", _("Male")  # so the second part is string representation
     FEMALE = "Female", _("Female")
     OTHER = "Other", _("Other")
 

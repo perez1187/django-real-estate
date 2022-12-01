@@ -21,7 +21,7 @@ class UserAdmin(BaseUserAdmin):
         "is_staff",
         "is_active",
     ]
-    list_display_links = ["id", "email"] # that means thad id and email are clicable
+    list_display_links = ["id", "email"]  # that means thad id and email are clicable
     list_filter = [
         "email",
         "username",
