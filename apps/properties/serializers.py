@@ -8,6 +8,8 @@ from .models import Property, PropertyViews
 class PropertySerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     country = CountryField(name_only=True)
+
+    ''' these fields allow us to receive photo url '''
     cover_photo = serializers.SerializerMethodField()
     profile_photo = serializers.SerializerMethodField()
     photo1 = serializers.SerializerMethodField()

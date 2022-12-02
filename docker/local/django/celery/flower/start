@@ -19,4 +19,3 @@ done
 flower \
     --app=real_estate \
     --broker="${CELERY_BROKER}"
-
