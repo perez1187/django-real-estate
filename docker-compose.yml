@@ -24,8 +24,8 @@ services:
     client:
         build:
             context: ./client
-            # dockerfile: ./docker/local/Dockerfile
-            dockerfile: Dockerfile.dev
+            dockerfile: ./docker/local/Dockerfile
+            
         restart: on-failure
         volumes:
             - ./client:/app
